@@ -1,0 +1,10 @@
+*.npy
+*.pyc
+*.pt
+!4vtx.npy
+!basic.npy
+!cfi.npy
+!dr.npy
+!extension.npy
+!regular.npy
+!str.npy

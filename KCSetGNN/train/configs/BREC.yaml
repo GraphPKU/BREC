@@ -1,0 +1,14 @@
+dataset: BREC
+# num_workers: 1
+model:
+  num_layers: 4
+  num_inners: 2
+  half_step: False
+  pools: [add]
+  hidden_size: 64
+  bgnn_type: 'Parallel'
+subgraph:
+  kmin: 0
+  kmax: 3
+  zero_init: True
+  num_components: 2
