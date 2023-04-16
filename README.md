@@ -47,7 +47,7 @@ Data preparation requires two steps: genarate the dataset and arrange it in corr
 
 We provide two methods for data generation.
 
-The first method is to download from [BREC_dropbox](https://www.dropbox.com/sh/wecxxmrvu8oft4q/AADDKYLwqgvoHmfEJWDjalJ2a?dl=0) or [BREC_onedrive](https://1drv.ms/f/s!Au0PralNRmmxg33UL2ouvliC_ZYR?e=RQFZdT)
+The first method is to download from [BREC_dropbox](https://www.dropbox.com/sh/wecxxmrvu8oft4q/AADDKYLwqgvoHmfEJWDjalJ2a?dl=0) or [BREC_onedrive](https://1drv.ms/f/s!Au0PralNRmmxg33UL2ouvliC_ZYR?e=RQFZdT) or [BREC_disk_pku](https://disk.pku.edu.cn:443/link/02962477D539E4D5F0C7D2CE79DFE8DB).
 
 The second method refer to [Customize Dataset](#customize).
 
