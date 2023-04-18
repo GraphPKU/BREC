@@ -6,14 +6,14 @@ This repository is the official implementation of the following paper: [Towards 
 
 **BREC**  is a new dataset for GNN expressiveness comparison.
 It addresses the limitations of previous datasets, including difficulty, granularity, and scale, by incorporating
-400 pairs of diverse graphs in four categories (Basic, Regular, Extension, CFI).
-The graphs are organized pair-wise where each pair is tested individually to return whether a GNN can distinguish them. We also propose a new evaluation method **RPC** (Reliable Paired Comparisons) with contrastive training framework.
+400 pairs of various graphs in four categories (Basic, Regular, Extension, CFI).
+The graphs are organized pair-wise, where each pair is tested individually to return whether a GNN can distinguish them. We propose a new evaluation method, **RPC** (Reliable Paired Comparisons), with a contrastive training framework.
 
 ## Usages
 
 ### File Structure
 
-We first introduce general file structure of BREC:
+We first introduce the general file structure of BREC:
 
 ```bash
 ├── Data
@@ -21,27 +21,27 @@ We first introduce general file structure of BREC:
         └── brec_v3.npy    # unprocessed BREC dataset in graph6 format
 ├── BRECDataset_v3.py    # BREC dataset construction file
 ├── test_BREC.py    # Evaluation framework file
-└── test_BREC_search.py    # Run test_BREC.py with 10 seeds for final result
+└── test_BREC_search.py    # Run test_BREC.py with 10 seeds for the final result
 ```
 
 To test on BREC, there are four steps to follow:
 
-1. Select a model and go to corresponding [directory](#directory).
+1. Select a model and go to the corresponding [directory](#directory).
 2. [ Prepare ](#preparation) dataset based on selected model requirements.
-3. Check *test_BREC.py* for implementation if you are testing your own GNN.
+3. Check *test_BREC.py* for implementation if you test your own GNN.
 4. Run *test_BREC_search.py* for final result. Only if no failure in reliability check for all seeds is available.
 
 ### Requirements
 
 Tested combination: Python 3.8.13 + [PyTorch 1.13.1](https://pytorch.org/get-started/previous-versions/) + [PyTorch_Geometric 2.2](https://pytorch-geometric.readthedocs.io/en/latest/notes/installation.html)
 
-Other required python libraries include: numpy, networkx, loguru, etc.
+Other required Python libraries included: numpy, networkx, loguru, etc.
 
-For reproducing other results, please refer to corresponding requirements for additional libraries.
+For reproducing other results, please refer to the corresponding requirements for additional libraries.
 
 ### <span id="preparation">Data Preparation</span>
 
-Data preparation requires two steps: genarate the dataset and arrange it in correct position.
+Data preparation requires two steps: generate the dataset and arrange it in the correct position.
 
 #### Step 1: Data Generation
 
@@ -49,18 +49,18 @@ We provide two methods for data generation.
 
 The first method is to download from [BREC_dropbox](https://www.dropbox.com/sh/wecxxmrvu8oft4q/AADDKYLwqgvoHmfEJWDjalJ2a?dl=0) or [BREC_onedrive](https://1drv.ms/f/s!Au0PralNRmmxg33UL2ouvliC_ZYR?e=RQFZdT) or [BREC_disk_pku](https://disk.pku.edu.cn:443/link/02962477D539E4D5F0C7D2CE79DFE8DB).
 
-The second method refer to [Customize Dataset](#customize).
+The second method refers to [Customize Dataset](#customize).
 
 For most methods, only *brec_v3.npy* is needed. More detailed requirements on datasets can refer to corresponding implementations.
 
 #### Step 2: Data Arrangement
 
-Replace *$.txt* to *$.npy* in corresponding *Data/raw* directory.
-For most methods, only *brec_v3.txt* is in *Data/raw* directory, thus replacing *brec_v3.txt* to *brec_v3.npy* is enough.
+Replace *$.txt* with *$.npy* in the corresponding *Data/raw* directory.
+For most methods, only *brec_v3.txt* is in *Data/raw* directory. Thus replacing *brec_v3.txt* with *brec_v3.npy* is enough.
 
 ### <span id="directory">Reproduce Baselines</span>
 
-For baseline results reproduction, please refer to respective directories:
+For baseline results reproduction, please refer to the respective directories:
 
 | Baseline          | Directory                           |
 | ----------------- | ----------------------------------- |
@@ -79,11 +79,11 @@ For baseline results reproduction, please refer to respective directories:
 
 ### Test Your Own GNN
 
-In addition to previous steps in reproducing baselines, implement *test_BREC.py* is needed.
+In addition to previous steps in reproducing baselines, implementing *test_BREC.py* is needed.
 
 #### Evaluation Step
 
-To test your own GNNs, in addition to previous steps, you need to implement *test_BREC.py* with your model and run (${configs} represents corresponding config usage):
+To test your GNNs, in addition to previous steps, you need to implement *test_BREC.py* with your model and run (${configs} represents corresponding config usage):
 
 ```bash
 python test_BREC.py ${configs}
@@ -101,19 +101,19 @@ python test_BREC.py ${configs}
 4. evaluation
 ```
 
-**Pre-calculation** aims to organize off-line operations on graphs.
+**Pre-calculation** aims to organize offline operations on graphs.
 
-**Dataset construction** aims to process the dataset with specific operations. BRECDataset is implemented based on InMemoryDataset. It is recommended to use tranform and pre_transform to transform the graphs.
+**Dataset construction** aims to process the dataset with specific operations. BRECDataset is implemented based on InMemoryDataset. It is recommended to use transform and pre_transform to transform the graphs.
 
 **Model construction** aims to construct the GNN.
 
-**Evaluation** implements RPC. With model and dataset, it will produce the final results.
+**Evaluation** implements RPC. With the model and dataset, it will produce the final results.
 
-Suppose your own experiment is done by running *python main.py*. In practice, you can easily implement *test_BREC.py* with *main.py*. You can drop the training and testing pipeline in *main.py* and split the rest to corresponding stages in *test.py*.
+Suppose your own experiment is done by running *python main.py*. You can easily implement *test_BREC.py* with *main.py*. You can drop the training and testing pipeline in *main.py* and split the rest into corresponding stages in *test.py*.
 
 ### <span id="customize">Customize BREC Dataset</span>
 
-Some graphs in BREC may be too difficult for some models, like strongly regular graphs can not be distinguished by 3-WL.
+Some graphs in BREC may be too difficult for some models, like strongly regular graphs that 3-WL can not distinguish.
 You can discard some graphs from BREC to reduce test time.
 In addition, the parameter $q$ in RPC can also be adjusted when customizing. Only the *customize* directory is required.
 
@@ -132,7 +132,7 @@ In addition, the parameter $q$ in RPC can also be adjusted when customizing. Onl
 └── dataset_v3_no4v_60cfi.py  # Generating brec_v3_no4v_60cfi.npy
 ```
 
-For most methods, use *brec_v3.npy* by running *python dataset_v3.py* is enough.
+Using *brec_v3.npy* by running *python dataset_v3.py* is enough for most methods.
 
 For customization, suppose you want to discard distance regular graphs from BREC. You need to delete dr.npy related codes. The total pair number and the "category-id_range" dictionary should also be adjusted.
 
@@ -140,7 +140,7 @@ For customization, suppose you want to discard distance regular graphs from BREC
 
 ### Results Demonstration
 
-The 400 pairs of graphs are from four categories: Basic, Regular, Extension, CFI. We further  4-vertex condition and distance regular graphs from Regular as a separate category. The "category-id_range" dictionary is as follows:
+The 400 pairs of graphs are from four categories: Basic, Regular, Extension, CFI. We further split 4-vertex condition and distance regular graphs from Regular as a separate category. The "category-id_range" dictionary is as follows:
 
 ```python
   "Basic": (0, 60),
@@ -151,4 +151,4 @@ The 400 pairs of graphs are from four categories: Basic, Regular, Extension, CFI
   "Distance_Regular": (380, 400),
 ```
 
-You can refer to detailed graph in *customize/Data/raw* for analysis.
+You can refer to the detailed graph in *customize/Data/raw* for analysis.
