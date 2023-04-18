@@ -2,7 +2,7 @@
 
 ## About
 
-This repository is the official implementation of the following paper:
+This repository is the official implementation of the following paper: [Towards Better Evaluation of GNN Expressiveness with BREC Dataset](https://arxiv.org/abs/2304.07702)
 
 **BREC**  is a new dataset for GNN expressiveness comparison.
 It addresses the limitations of previous datasets, including difficulty, granularity, and scale, by incorporating
