@@ -125,6 +125,16 @@ def get_model(args, device):
 # Stage 4: evaluation
 # Here is for evaluation.
 def evaluation(dataset, model, path, device, args):
+    '''
+        When testing on BREC, even on the same graph, the output embedding may be different, 
+        because numerical precision problem occur on large graphs, and even the same graph is permuted.
+        However, if you want to test on some simple graphs without permutation outputting the exact same embedding,
+        some modification is needed to avoid computing the inverse matrix of a zero matrix.
+    '''
+    # If you want to test on some simple graphs without permutation outputting the exact same embedding, please use S_epsilon.
+    # S_epsilon = torch.diag(
+    #     torch.full(size=(OUTPUT_DIM, 1), fill_value=EPSILON_MATRIX).reshape(-1)
+    # ).to(device)
     def T2_calculation(dataset, log_flag=False):
         with torch.no_grad():
             loader = torch_geometric.loader.DataLoader(dataset, batch_size=BATCH_SIZE)
@@ -143,6 +153,8 @@ def evaluation(dataset, model, path, device, args):
             D_mean = torch.mean(D, dim=1).reshape(-1, 1)
             S = torch.cov(D)
             inv_S = torch.linalg.pinv(S)
+            # If you want to test on some simple graphs without permutation outputting the exact same embedding, please use inv_S with S_epsilon.
+            # inv_S = torch.linalg.pinv(S + S_epsilon)
             return torch.mm(torch.mm(D_mean.T, inv_S), D_mean)
 
     time_start = time.process_time()
