@@ -45,11 +45,7 @@ Data preparation requires two steps: generate the dataset and arrange it in the 
 
 #### Step 1: Data Generation
 
-We provide two methods for data generation.
-
-The first method is to download from [BREC_dropbox](https://www.dropbox.com/sh/wecxxmrvu8oft4q/AADDKYLwqgvoHmfEJWDjalJ2a?dl=0) or [BREC_onedrive](https://1drv.ms/f/s!Au0PralNRmmxg33UL2ouvliC_ZYR?e=RQFZdT) or [BREC_disk_pku](https://disk.pku.edu.cn:443/link/02962477D539E4D5F0C7D2CE79DFE8DB).
-
-The second method refers to [Customize Dataset](#customize).
+We provide zipped data file *BREC_data_all.zip*. You can unzip it for 3 data files in npy format. You can also customize dataset refering to [Customize Dataset](#customize).
 
 For most methods, only *brec_v3.npy* is needed. More detailed requirements on datasets can refer to corresponding implementations.
 
@@ -118,7 +114,7 @@ You can discard some graphs from BREC to reduce test time.
 In addition, the parameter $q$ in RPC can also be adjusted when customizing. Only the *customize* directory is required.
 
 ```bash
-├── Data     # Original grpah file
+├── Data     # Original graph file
     └── raw
         ├── basic.npy  # Basic graphs
         ├── regular.npy  # Simple regular graphs
@@ -134,7 +130,7 @@ In addition, the parameter $q$ in RPC can also be adjusted when customizing. Onl
 
 Using *brec_v3.npy* by running *python dataset_v3.py* is enough for most methods.
 
-For customization, suppose you want to discard distance regular graphs from BREC. You need to delete dr.npy related codes. The total pair number and the "category-id_range" dictionary should also be adjusted.
+For customization, suppose you want to discard distance regular graphs from BREC. You need to delete *dr.npy* related codes in *dataset_v3.py*. The total pair number and the "category-id_range" dictionary should also be adjusted.
 
 "NUM" represent $q$ in RPC, which can be adjusted for a different RPC check.
 
