@@ -12,6 +12,12 @@ To reproduce best result on 3-WL, run (we recommend to use 2-FWL with same expre
 python test.py --wl 2 --method fwl
 ```
 
+or
+
+```bash
+python test.py --wl 3 --method k-wl
+```
+
 To reproduce best result on $S_3$, $S_4$, $N_1$, $N_2$ and $M_1$, run:
 
 ```bash
@@ -45,8 +51,8 @@ The Category-to-range dict is:
 ```python
   "Basic": (0, 60),
   "Regular": (60, 160),
-  "CFI": (160, 260),
-  "Extension": (260, 360),
+  "Extension": (160, 260),
+  "CFI": (260, 360),
   "4-Vertex_Condition": (360, 380),
   "Distance_Regular": (380, 400),
   "Reliability": (400, 800)

@@ -1,7 +1,7 @@
 import numpy as np
 import argparse
 from tqdm import tqdm
-from utils import FWL_hash, WL_1_hash
+from utils import FWL_hash, WL_1_hash, WL_hash
 import random
 import logging
 import time
@@ -11,7 +11,7 @@ import os
 np.random.seed(2022)
 random.seed(2022)
 
-func_dict = {"fwl": FWL_hash, "wl": WL_1_hash}
+func_dict = {"fwl": FWL_hash, "wl": WL_1_hash, "k-wl": WL_hash}
 
 
 def func_None():
@@ -25,8 +25,8 @@ def wl_method(method, G, k, mode=None):
 part_dict = {
     "Basic": (0, 60),
     "Regular": (60, 160),
-    "CFI": (160, 260),
-    "Extension": (260, 360),
+    "Extension": (160, 260),
+    "CFI": (260, 360),
     "4-Vertex_Condition": (360, 380),
     "Distance_Regular": (380, 400),
     "Reliability": (400, 800),

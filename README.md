@@ -141,8 +141,8 @@ The 400 pairs of graphs are from four categories: Basic, Regular, Extension, CFI
 ```python
   "Basic": (0, 60),
   "Regular": (60, 160),
-  "CFI": (160, 260),
-  "Extension": (260, 360),
+  "Extension": (160, 260),
+  "CFI": (260, 360),
   "4-Vertex_Condition": (360, 380),
   "Distance_Regular": (380, 400),
 ```

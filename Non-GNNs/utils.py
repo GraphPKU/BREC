@@ -177,6 +177,75 @@ def count_sub_4(G):
     return type_list
 
 
+def WL_hash(G, k, mode=None):
+    # k should satisfy that any subgraph with k nodes is distinguishable with 1-WL
+    node_list = [x for x in G.nodes]
+    # print('node_list', node_list)
+    n = G.number_of_nodes()
+    node_to_id = dict()
+    cnt = 0
+    for i in range(n):
+        node_to_id[node_list[i]] = i
+    hash_wl_discret = dict()  # discretization of wl hash value
+    node_vector_hash = []  # hash_value for each vector
+    node_vector_hash_discret = []  # hash_value discretization for each vector
+    node_vector_list = list(product(node_list, repeat=k))
+
+    for node_vector in node_vector_list:
+        sub_G = G.subgraph(node_vector)
+        hash_wl = nx.weisfeiler_lehman_graph_hash(sub_G)
+        # hash_wl = sub_G.number_of_edges()
+        if hash_wl not in hash_wl_discret:
+            hash_wl_discret[hash_wl] = cnt
+            cnt += 1
+        node_vector_hash.append(hash_wl)
+        node_vector_hash_discret.append(hash_wl_discret[hash_wl])
+
+    epoch = 1
+    while epoch:
+        epoch += 1
+        hash_wl_discret = dict()
+        node_vector_hash_nxt = []
+        node_vector_hash_discret_nxt = []
+        cnt = 0
+        for id in range(len(node_vector_list)):
+            node_vector = node_vector_list[id]
+
+            # hash_l_list is c^l_v, hash(str(node_vector_hash[id])) is c^(l-1)_v
+            hash_l_list = [hash(str(node_vector_hash[id]))]
+
+            for i in range(k):  # iterate pos of neighbor
+                base_power = pow(n, k - 1 - i)
+                id_remain = id - node_to_id[node_vector[i]] * base_power
+
+                # hash_neighbor_list is {{c^l_(v,i)}}
+                hash_neighbor_list = []
+                for node in node_list:  # iterate neighbor node
+                    id_cur = id_remain + node_to_id[node] * base_power
+                    hash_neighbor_list.append(node_vector_hash[id_cur])
+                hash_neighbor_list.sort()
+
+                hash_l_list.append(hash(str(hash_neighbor_list)))
+            # print('hash_l_list', hash_l_list)
+            hash_l = hash(str(hash_l_list))
+            if hash_l not in hash_wl_discret:
+                hash_wl_discret[hash_l] = cnt
+                cnt += 1
+
+            node_vector_hash_nxt.append(hash_l)
+            node_vector_hash_discret_nxt.append(hash_wl_discret[hash_l])
+
+        if hash(str(node_vector_hash_discret)) == hash(
+            str(node_vector_hash_discret_nxt)
+        ):
+            counter = Counter(node_vector_hash_nxt)
+            return_hash = sorted(counter.items(), key=lambda x: x[0])
+            return hash(str(return_hash))
+
+        node_vector_hash = copy.deepcopy(node_vector_hash_nxt)
+        node_vector_hash_discret = copy.deepcopy(node_vector_hash_discret_nxt)
+
+
 def FWL_hash(G, k, mode=None):
     # k should satisfy that any subgraph with k nodes is distinguishable with 1-WL
     node_list = [x for x in G.nodes]
@@ -208,7 +277,7 @@ def FWL_hash(G, k, mode=None):
         node_vector_hash_nxt = []
         node_vector_hash_discret_nxt = []
         cnt = 0
-    
+
         for id in range(len(node_vector_list)):
             node_vector = node_vector_list[id]
 
@@ -222,9 +291,7 @@ def FWL_hash(G, k, mode=None):
 
                 for i in range(k):  # iterate pos of neighbor
                     base_power = pow(n, k - 1 - i)
-                    id_cur = (
-                        id + (id_node - node_to_id[node_vector[i]]) * base_power
-                    )
+                    id_cur = id + (id_node - node_to_id[node_vector[i]]) * base_power
                     hash_neighbor_list.append(node_vector_hash[id_cur])
 
                 hash_l_list.append(hash(str(hash_neighbor_list)))
