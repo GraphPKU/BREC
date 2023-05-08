@@ -37,7 +37,7 @@ SAMPLE_NUM = 400
 EPOCH = 10
 MARGIN = 0.0
 LEARNING_RATE = 1e-4
-THRESHOLD = 10.0
+THRESHOLD = 72.34
 BATCH_SIZE = 16
 WEIGHT_DECAY = 1e-5
 LOSS_THRESHOLD = 0.01
@@ -313,6 +313,7 @@ def evaluation(dataset, model, path, device, args):
         D = X.shape[-1]
         mean = torch.mean(X, dim=-1).unsqueeze(-1)
         X = X - mean
+        # return torch.matmul(X, X.T) / (D - 1)
         return 1 / (D - 1) * X @ X.transpose(-1, -2)
 
     S_epsilon = torch.diag(
@@ -350,32 +351,6 @@ def evaluation(dataset, model, path, device, args):
             # inv_S = torch.linalg.pinv(S)
             inv_S = torch.inverse(S + S_epsilon)
             return torch.abs(torch.mm(torch.mm(D_mean.T, inv_S), D_mean))
-
-    # def T2_calculation(dataset, log_flag=False):
-    #     with torch.no_grad():
-    #         loader = DataLoader(
-    #             dataset,
-    #             batch_size=BATCH_SIZE,
-    #             num_workers=args.num_workers,
-    #             follow_batch=["subgraph_idx"],
-    #         )
-    #         pred_0_list = []
-    #         pred_1_list = []
-    #         for data in loader:
-    #             pred = model(data.to(device)).detach()
-    #             pred_0_list.extend(pred[0::2])
-    #             pred_1_list.extend(pred[1::2])
-    #         X = torch.cat([x.reshape(1, -1) for x in pred_0_list], dim=0).T
-    #         Y = torch.cat([x.reshape(1, -1) for x in pred_1_list], dim=0).T
-    #         if log_flag:
-    #             logger.info(f"X_mean = {torch.mean(X, dim=1)}")
-    #             logger.info(f"Y_mean = {torch.mean(Y, dim=1)}")
-    #         D = (X - Y).cpu()
-    #         D_mean = torch.mean(D, dim=1).reshape(-1, 1)
-    #         S = cov(D)
-    #         # inv_S = torch.linalg.pinv(S)
-    #         inv_S = torch.inverse(S + S_epsilon)
-    #         return torch.mm(torch.mm(D_mean.T, inv_S), D_mean)
 
     time_start = time.process_time()
 
