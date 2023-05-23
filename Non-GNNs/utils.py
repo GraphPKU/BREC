@@ -177,6 +177,20 @@ def count_sub_4(G):
     return type_list
 
 
+def tuple_isomorphism_generator(tuple_u, graph_G):
+    """
+    Given a tuple 'tuple_u', generate tuple isomorphism based on 'graph_G'
+    """
+    return_type = ""
+    for node_u in tuple_u:
+        for node_v in tuple_u:
+            if graph_G.has_edge(node_u, node_v):
+                return_type += "1"
+            else:
+                return_type += "0"
+    return return_type
+
+
 def WL_hash(G, k, mode=None):
     # k should satisfy that any subgraph with k nodes is distinguishable with 1-WL
     node_list = [x for x in G.nodes]
@@ -193,7 +207,8 @@ def WL_hash(G, k, mode=None):
 
     for node_vector in node_vector_list:
         sub_G = G.subgraph(node_vector)
-        hash_wl = nx.weisfeiler_lehman_graph_hash(sub_G)
+        hash_wl = tuple_isomorphism_generator(node_vector, sub_G)
+        # hash_wl = nx.weisfeiler_lehman_graph_hash(sub_G)
         # hash_wl = sub_G.number_of_edges()
         if hash_wl not in hash_wl_discret:
             hash_wl_discret[hash_wl] = cnt
@@ -262,7 +277,8 @@ def FWL_hash(G, k, mode=None):
 
     for node_vector in node_vector_list:
         sub_G = G.subgraph(node_vector)
-        hash_wl = nx.weisfeiler_lehman_graph_hash(sub_G)
+        # hash_wl = nx.weisfeiler_lehman_graph_hash(sub_G)
+        hash_wl = tuple_isomorphism_generator(node_vector, sub_G)
         # hash_wl = sub_G.number_of_edges()
         if hash_wl not in hash_wl_discret:
             hash_wl_discret[hash_wl] = cnt
@@ -442,3 +458,57 @@ def from_nx_to_nauty(G):
     # print(adjacency_dict)
     g = pynauty.Graph(number_of_vertices=n, adjacency_dict=adjacency_dict)
     return g
+
+
+def Distance_WL_hash(G, k=1, mode="none"):
+    distance_matrix = nx.floyd_warshall_numpy(G)
+    G_full = nx.Graph()
+    G_full.add_edges_from(
+        [
+            (
+                i,
+                j,
+                {
+                    "label": int(distance_matrix[i][j])
+                    if distance_matrix[i][j] != np.inf
+                    else 0
+                },
+            )
+            for i in range(len(G))
+            for j in range(len(G))
+            if i != j
+        ]
+    )
+    return nx.weisfeiler_lehman_graph_hash(G_full, edge_attr="label", iterations=10)
+
+
+def Resistance_distance_WL_hash(G, k=1, mode="none"):
+    distance_matrix = nx.floyd_warshall_numpy(G)
+    distance_matrix = np.where(distance_matrix == np.inf, 0, distance_matrix)
+    resistance_distance_matrix = np.zeros_like(distance_matrix)
+    if nx.is_connected(G):
+        for i in range(len(G)):
+            for j in range(len(G)):
+                if i != j:
+                    resistance_distance_matrix[i][j] = nx.resistance_distance(G, i, j)
+        resistance_distance_matrix = np.where(
+            resistance_distance_matrix == np.inf, 0, resistance_distance_matrix
+        )
+    G_full = nx.Graph()
+    G_full.add_edges_from(
+        [
+            (
+                i,
+                j,
+                {
+                    "label": str(int(distance_matrix[i][j]))
+                    + "_"
+                    + str(int(resistance_distance_matrix[i][j]))
+                },
+            )
+            for i in range(len(G))
+            for j in range(len(G))
+            if i != j
+        ]
+    )
+    return nx.weisfeiler_lehman_graph_hash(G_full, edge_attr="label", iterations=10)

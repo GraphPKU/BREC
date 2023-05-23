@@ -1,7 +1,13 @@
 import numpy as np
 import argparse
 from tqdm import tqdm
-from utils import FWL_hash, WL_1_hash, WL_hash
+from utils import (
+    FWL_hash,
+    WL_1_hash,
+    WL_hash,
+    Distance_WL_hash,
+    Resistance_distance_WL_hash,
+)
 import random
 import logging
 import time
@@ -11,7 +17,13 @@ import os
 np.random.seed(2022)
 random.seed(2022)
 
-func_dict = {"fwl": FWL_hash, "wl": WL_1_hash, "k-wl": WL_hash}
+func_dict = {
+    "fwl": FWL_hash,
+    "wl": WL_1_hash,
+    "k-wl": WL_hash,
+    "distance": Distance_WL_hash,
+    "resistance": Resistance_distance_WL_hash,
+}
 
 
 def func_None():
@@ -34,9 +46,7 @@ part_dict = {
 
 
 parser = argparse.ArgumentParser(description="Test non-GNN methods on BREC.")
-parser.add_argument(
-    "--file", type=str, default="brec_nonGNN.npy"
-)
+parser.add_argument("--file", type=str, default="brec_nonGNN.npy")
 parser.add_argument("--wl", type=int, default="1")
 parser.add_argument("--mode", type=str, default="none")
 parser.add_argument("--method", type=str, default="wl")
@@ -100,6 +110,8 @@ def count_distinguish_num(graph_tuple_list):
                 correct_list_part.append(id)
                 # if part_name == 'Reliability':
                 #     print(id)
+            else:
+                logging.info(f"Wrong in {id}")
 
         end = time.process_time()
         time_cost_part = round(end - start, 2)

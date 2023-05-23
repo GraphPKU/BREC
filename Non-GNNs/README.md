@@ -18,7 +18,7 @@ or
 python test.py --wl 3 --method k-wl
 ```
 
-To reproduce best result on $S_3$, $S_4$, $N_1$, $N_2$ and $M_1$, run:
+To reproduce best result on $S_3$, $S_4$, $N_1$, $N_2$, $M_1$, SPD-WL, GD-WL, run:
 
 ```bash
 python test.py --mode s3
@@ -38,6 +38,14 @@ python test.py --mode n2
 
 ```bash
 python test.py --mode m1
+```
+
+```bash
+python test.py --mode distance
+```
+
+```bash
+python test.py --mode resistance
 ```
 
 You can also select only part of the graphs by specify:

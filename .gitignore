@@ -9,3 +9,6 @@
 !regular.npy
 !str.npy
 !brec_nonGNN.npy
+.vscode
+*.ipynb
+logging.log
