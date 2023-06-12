@@ -1,0 +1,38 @@
+fixed:
+  dataset: brec
+  log_path: './logs'
+  voting: 1
+
+  sample_configs:
+    sample_policy: edge
+    sample_k: -1
+    num_subgraphs: 20
+    remove_node: False
+    add_full_graph: True
+    sample_with_esan: False
+
+  imle_configs:
+    embd_lr: 1.e-3
+    reg_embd: 0.
+    imle_sample_rand: False
+    micro_batch_embd: 1
+    norm_logits: False
+    noise_scale: 1.
+    beta: 10.
+    aux_loss_weight: 1.0
+
+  NUM_RELABEL : 32
+  P_NORM : 2
+  OUTPUT_DIM : 16
+  EPSILON_MATRIX : 1.e-7
+  EPSILON_CMP : 1.e-6
+  SAMPLE_NUM : 400
+  EPOCH : 40
+  MARGIN : 0.0
+  LEARNING_RATE : 1.e-3
+  THRESHOLD : 72.34
+  BATCH_SIZE : 16
+  WEIGHT_DECAY : 1.e-5
+  LOSS_THRESHOLD : 0.0
+  SEED : 800
+  DEVICE: 1

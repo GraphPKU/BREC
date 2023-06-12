@@ -1,0 +1,16 @@
+common:
+  model: ogb_originalgin
+  dropout: 0.0
+  hid_size: 64
+  lr: 1.e-3
+  lr_steps: [ 50, 100, 150, 200, 250, 300 ]
+  lr_decay_rate: 0.5
+  patience: 100
+  reg: 0.
+  num_convlayers: 8
+  batch_size: 32
+  min_epochs: 350
+  max_epochs: 350
+  data_path: './datasets'
+  debug: False
+  num_runs: 5
