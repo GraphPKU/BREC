@@ -11,7 +11,7 @@ The graphs are organized pair-wise, where each pair is tested individually to re
 
 ## Update
 
-**[2023/05/08]** The Threshold for determining whether a pair is distinguished was set to 10 or 20 in the version before 2023/05/08, which was the minimum threshold for passing all reliability check with highest accuracy. 
+**[2023/05/08]** The Threshold for determining whether a pair is distinguished was set to 10 or 20 in the version before 2023/05/08, which was the minimum threshold for passing all reliability check with highest accuracy.
 However, the strict threshold should be $72.34$ based on F-distribution. In order to strictly follow the theoretical settings and reduce the debugging burden, we fixed threshold to $72.34$ for all methods, which leads to an accuracy decrease up to 1\%. The results and settings are updated synchronously in paper. Sorry for any inconvenience and confusion.
 
 ## Usages
@@ -32,7 +32,7 @@ We first introduce the general file structure of BREC:
 To test on BREC, there are four steps to follow:
 
 1. Select a model and go to the corresponding [directory](#directory).
-2. [ Prepare ](#preparation) dataset based on selected model requirements.
+2. [Prepare](#preparation) dataset based on selected model requirements.
 3. Check *test_BREC.py* for implementation if you want to test your own GNN.
 4. Run *test_BREC_search.py* for final result. Only if no failure in reliability check for all seeds is available.
 
@@ -75,6 +75,12 @@ For baseline results reproduction, please refer to the respective directories:
 | KP-GNN            | KP-GNN                              |
 | KC-SetGNN         | KCSetGNN                            |
 | I$^2$-GNN         | I2GNN                               |
+| GSN               | GSN                                 |
+| Graphormer        | Graphormer                          |
+| OSAN              | OSAN                                |
+| $\delta$-LGNN(SparseWL) | SparseWL                      |
+| SWL               | SWL                                 |
+| DropGNN           | DropGNN                             |
 | Non-GNN Baselines | Non-GNN                             |
 | Your Own GNN      | Base                                |
 
