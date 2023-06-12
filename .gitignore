@@ -1,6 +1,9 @@
 *.npy
 *.pyc
 *.pt
+log.txt
+log.*.txt
+result_show.txt
 !4vtx.npy
 !basic.npy
 !cfi.npy
