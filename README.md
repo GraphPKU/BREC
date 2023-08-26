@@ -11,10 +11,6 @@ It addresses the limitations of previous datasets, including difficulty, granula
 400 pairs of various graphs in four categories (Basic, Regular, Extension, CFI).
 The graphs are organized pair-wise, where each pair is tested individually to return whether a GNN can distinguish them. We propose a new evaluation method, **RPC** (Reliable Paired Comparisons), with a contrastive training framework.
 
-## Update
-
-**[2023/05/08]** The Threshold for determining whether a pair is distinguished was set to 10 or 20 in the version before 2023/05/08, which was the minimum threshold for passing all reliability check with highest accuracy.
-However, the strict threshold should be $72.34$ based on F-distribution. In order to strictly follow the theoretical settings and reduce the debugging burden, we fixed threshold to $72.34$ for all methods, which leads to an accuracy decrease up to 1\%. The results and settings are updated synchronously in paper. Sorry for any inconvenience and confusion.
 
 ## Usages
 
